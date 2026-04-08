@@ -3,12 +3,16 @@ from .models import User
 from .forms import UserForm
 
 # Create your views here.
+
+def users(request):
+    users = User.objects.all()
+    return render(request, 'users.html', {'users': users})
 def add_user(request):
     if request.method == "POST":
         user = UserForm(request.POST)
         if user.is_valid():
             user.save()
-        return redirect('/')
+        return redirect('/users/')
     else:
         form = UserForm()
         return render(request, "add_user.html", {'form': form})
