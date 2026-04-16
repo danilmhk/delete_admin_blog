@@ -11,11 +11,14 @@
     <div id="wrapper">
         <div id="header">
             <div id="menu">
-                <a href="/index">Главная страница</a>
+                <a href="/login">Войти</a>
                 <a href="/users">Список пользователей</a>
-                <a href="/add_user">Добавить пользователя</a>
-                <a href="/roles">Список ролей</a>
-                <a href="/add_role">Добавить роль</a>
+                <a href="/add_user">Регистрация</a>
+                <!-- <a href="/roles">Список ролей</a> -->
+                <!-- <a href="/add_role">Добавить роль</a> -->
+                {% if user %}
+                    <a href="/logout">Выйти</a>
+                {% endif %}
             </div>
         </div>
         <div id="container">

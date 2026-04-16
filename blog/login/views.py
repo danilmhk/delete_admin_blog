@@ -31,10 +31,33 @@ def add_role(request):
         return render(request, "add_role.html", {'form': form, 'role': role})
 
 def index(request):
-    return render(request, 'index.html')
+    if request.session.get('user_id'):
+        u_id=request.session.get('user_id')
+        u = User.objects.get(id=u_id)
+        return render(request, 'index.html', {'user': u})
+    else:
+        return redirect('/login/')
+
 
 def login(request):
     if request.method=="GET":
         return render(request, 'login.html')
     else:
+        login = request.POST.get('login')
+        password = request.POST.get('pas')
+
+        try:
+            user = User.objects.get(login=login)
+        except User.DoesNotExist:
+            return redirect('/login')
+        
+        if password != user.password:
+            return redirect('/login')
+
+        request.session['user_id']=user.id
+        request.session['login']=user.login
         return redirect('/')
+
+def logout_view(request):
+    request.session.flush()
+    return redirect('/login')
