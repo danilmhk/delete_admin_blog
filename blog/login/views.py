@@ -29,3 +29,12 @@ def add_role(request):
     else:
         form = RoleForm()
         return render(request, "add_role.html", {'form': form, 'role': role})
+
+def index(request):
+    return render(request, 'index.html')
+
+def login(request):
+    if request.method=="GET":
+        return render(request, 'login.html')
+    else:
+        return redirect('/')
