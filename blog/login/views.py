@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import User, Role
 from .forms import UserForm, RoleForm
+from .decorators import login_required, is_director, is_manager
 
 # Create your views here.
 
+@login_required
 def users(request):
     if not request.session.get('user_id'):
         return redirect('/login/')
@@ -20,8 +22,11 @@ def add_user(request):
         return render(request, "add_user.html", {'form': form})
 
 def roles(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
     roles = Role.objects.all()
-    return(render, 'role.html', {'roles': roles})
+    return render(request, 'role.html', {'roles': roles, 'only_logout': True})
+
 def add_role(request):
     if request.method == "POST":
         role = RoleForm(request.POST)
@@ -30,7 +35,7 @@ def add_role(request):
         return redirect('/roles/')
     else:
         form = RoleForm()
-        return render(request, "add_role.html", {'form': form, 'role': role})
+        return render(request, "add_role.html", {'form': form})
 
 def index(request):
     if request.session.get('user_id'):
@@ -63,3 +68,14 @@ def login(request):
 def logout_view(request):
     request.session.flush()
     return redirect('/login')
+
+@login_required
+def for_authorized(request):
+    return render(request, 'page_for_authorized.html')
+@is_director
+def for_director(request):
+    return render(request, 'page_for_director.html')
+@is_manager
+def for_manager(request):
+    return render(request, 'page_for_manager.html')
+

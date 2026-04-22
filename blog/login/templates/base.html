@@ -17,6 +17,7 @@
                 {% else %}
                     {% if request.session.user_id %}
                         <a href="/users">Список пользователей</a>
+                        <a href="/roles">Список ролей</a>
                         <a href="/logout">Выйти</a>
                     {% else %}
                         <a href="/login">Войти</a>

@@ -28,4 +28,7 @@ urlpatterns = [
     path('users/', views.users),
     path('roles/', views.roles), 
     path('logout/', views.logout_view),
+    path('page1/', views.for_authorized),
+    path('page2/', views.for_director),
+    path('page3/', views.for_manager),
 ]
