@@ -5,8 +5,10 @@ from .forms import UserForm, RoleForm
 # Create your views here.
 
 def users(request):
+    if not request.session.get('user_id'):
+        return redirect('/login/')
     users = User.objects.all()
-    return render(request, 'users.html', {'users': users})
+    return render(request, 'users.html', {'users': users, 'only_logout': True})
 def add_user(request):
     if request.method == "POST":
         user = UserForm(request.POST)

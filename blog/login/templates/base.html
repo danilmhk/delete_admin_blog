@@ -5,32 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Default title{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static "styles.css" %}" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <div id="wrapper">
+
         <div id="header">
             <div id="menu">
-                <a href="/login">Войти</a>
-                <a href="/users">Список пользователей</a>
-                <a href="/add_user">Регистрация</a>
-                <!-- <a href="/roles">Список ролей</a> -->
-                <!-- <a href="/add_role">Добавить роль</a> -->
-                {% if user %}
+                {% if only_logout %}
                     <a href="/logout">Выйти</a>
+                {% else %}
+                    {% if request.session.user_id %}
+                        <a href="/users">Список пользователей</a>
+                        <a href="/logout">Выйти</a>
+                    {% else %}
+                        <a href="/login">Войти</a>
+                        <a href="/add_user">Регистрация</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
+
         <div id="container">
             <div id="content">
-                {% block content %} 
-
+                {% block content %}
                 {% endblock content %}
             </div>
         </div>
-        <div id="footer">
 
+        <div id="footer">
         </div>
+
     </div>
 </body>
 </html>
